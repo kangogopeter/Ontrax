@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Contribution</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Edit Contribution</h2>
+<form th:action="@{/update}" th:object="${contribution}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <input type="text" th:field="*{month}" placeholder="Month" required><br>
+    <input type="number" th:field="*{date}" placeholder="Date" required><br>
+    <input type="text" th:field="*{tithesType}" placeholder="Tithes Type" required><br>
+    <input type="number" step="0.01" th:field="*{sadaka}" placeholder="Sadaka"><br>
+    <input type="number" step="0.01" th:field="*{fungu}" placeholder="Fungu"><br>
+    <input type="number" step="0.01" th:field="*{transactions}" placeholder="Transactions"><br>
+    <input type="number" step="0.01" th:field="*{totals}" placeholder="Totals"><br>
+    <input type="number" step="0.01" th:field="*{sTotals}" placeholder="S Totals"><br>
+    <input type="number" step="0.01" th:field="*{gTotals}" placeholder="G Totals"><br>
+    <input type="number" th:field="*{reportYear}" placeholder="Report Year" required><br>
+    <input type="number" th:field="*{churchId}" placeholder="Church ID" required><br>
+    <button type="submit">Update</button>
+</form>
+<a th:href="@{/}">Back to List</a>
+</body>
+</html>

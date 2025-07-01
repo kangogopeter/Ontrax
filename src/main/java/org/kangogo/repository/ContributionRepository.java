@@ -1,4 +1,7 @@
 package org.kangogo.repository;
 
-public class ContributionRepository {
+import org.kangogo.model.Contribution;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ContributionRepository extends JpaRepository<Contribution, Long> {
 }
