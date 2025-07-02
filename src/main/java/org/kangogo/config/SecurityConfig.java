@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import java.io.IOException;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -46,24 +48,43 @@ public class SecurityConfig {
                                                 org.springframework.security.core.AuthenticationException exception)
                     throws IOException, jakarta.servlet.ServletException {
                 request.getSession().setAttribute("error", true);
-                super.onAuthenticationFailure(request, response, exception);
+                response.sendRedirect("/login?error=true");
             }
         };
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationFailureHandler failureHandler) throws Exception {
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            System.out.println("Login successful, redirecting to: /");
+            response.sendRedirect("/");
+        };
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationFailureHandler failureHandler, AuthenticationSuccessHandler successHandler) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/register", "/login", "/css/**", "/webjars/**", "/custom-servlet").permitAll()
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/register"),
+                                new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/logout-success"),
+                                new AntPathRequestMatcher("/css/**"),
+                                new AntPathRequestMatcher("/images/**"),
+                                new AntPathRequestMatcher("/webjars/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .successHandler(successHandler) // Use custom success handler
                         .failureHandler(failureHandler)
                         .permitAll()
                 )
                 .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST")) // Custom logout URL
+                        .logoutSuccessUrl("/logout-success") // Redirect after logout
+                        .invalidateHttpSession(true) // Invalidate session
+                        .deleteCookies("JSESSIONID") // Delete session cookie
                         .permitAll()
                 );
         return http.build();

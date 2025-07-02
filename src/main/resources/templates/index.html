@@ -10,6 +10,7 @@
 <h2>Church Contributions</h2>
 <div style="text-align: center; margin-bottom: 20px;">
     <a th:href="@{/add}">Add New Contribution</a>
+    <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
 </div>
 <table>
     <tr>
@@ -37,8 +38,14 @@
         <td style="text-align: center;">
             <a th:href="@{/edit/{id}(id=${contribution.id})}">Edit</a>
             <a th:href="@{/delete/{id}(id=${contribution.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+
         </td>
     </tr>
 </table>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
 </body>
 </html>
