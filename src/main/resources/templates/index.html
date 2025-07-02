@@ -3,10 +3,14 @@
 <head>
     <title>Church Contributions</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
 <h2>Church Contributions</h2>
-<a th:href="@{/add}">Add New Contribution</a>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a th:href="@{/add}">Add New Contribution</a>
+</div>
 <table>
     <tr>
         <th>Month</th>
@@ -30,7 +34,7 @@
         <td th:text="${#numbers.formatDecimal(contribution.totals, 2, 2)}"></td>
         <td th:text="${#numbers.formatDecimal(contribution.sTotals, 2, 2)}"></td>
         <td th:text="${#numbers.formatDecimal(contribution.gTotals, 2, 2)}"></td>
-        <td>
+        <td style="text-align: center;">
             <a th:href="@{/edit/{id}(id=${contribution.id})}">Edit</a>
             <a th:href="@{/delete/{id}(id=${contribution.id})}" onclick="return confirm('Are you sure?')">Delete</a>
         </td>

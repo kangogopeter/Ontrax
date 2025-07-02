@@ -14,6 +14,7 @@ public class ContributionController {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
+        System.out.println("Rendering view: index");
         model.addAttribute("contributions", contributionService.getAllContributions());
         return "index";
     }
