@@ -11,6 +11,8 @@ repositories {
     mavenCentral()
 }
 
+// data set configuration dependency module for system framework connectivity...
+
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
